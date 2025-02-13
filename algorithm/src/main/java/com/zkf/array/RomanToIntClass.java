@@ -6,17 +6,16 @@ import java.util.*;
 
 public class RomanToIntClass {
 
-    HashMap<Character, Integer> default_map = new HashMap<>();
 
-    public RomanToIntClass() {
-        default_map.put('I', 1);
-        default_map.put('V', 5);
-        default_map.put('X', 10);
-        default_map.put('L', 50);
-        default_map.put('C', 100);
-        default_map.put('D', 500);
-        default_map.put('M', 1000);
-    }
+    Map<Character, Integer> default_map = new HashMap<Character, Integer>() {{
+        put('I', 1);
+        put('V', 5);
+        put('X', 10);
+        put('L', 50);
+        put('C', 100);
+        put('D', 500);
+        put('M', 1000);
+    }};
 
     @Test
     public void test() {
@@ -37,16 +36,13 @@ public class RomanToIntClass {
         if (null == s || s == "") {
             return 0;
         }
-        List<Character> default_list = new ArrayList<>(Arrays.asList('I', 'X', 'C'));
         int result = 0;
-        char[] chars = s.toCharArray();
-        for (int i = 0; i < chars.length; i++) {
-            char oneChar = chars[i];
-            int value = default_map.get(oneChar);
+        for (int i = 0; i < s.length(); i++) {
+            int value = default_map.get(s.charAt(i));
             // 注意，这里的i+1的索引可能会超过字符串的长度，需要加上限制
-            if (default_list.contains(oneChar)
+            if (i < (s.length() - 1)
                     &&
-                    ((i < (chars.length - 1)) && default_map.get(chars[i + 1]) > default_map.get(chars[i]))
+                    default_map.get(s.charAt(i + 1)) > default_map.get(s.charAt(i))
             ) {
                 result += value * (-1);
             } else {
